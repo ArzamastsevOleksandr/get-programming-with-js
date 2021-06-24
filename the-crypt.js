@@ -3,6 +3,7 @@ const LEFT_BORDER = '* '
 const RIGHT_BORDER = ' *'
 const BORDER_SYMBOL = '*'
 const ITEMS_LEFT_BORDER = ' '.repeat(2)
+const ITEM_SEPARATOR = '- ';
 
 const getBorder = (quantityOfChars) => wrap(BORDER_SYMBOL.repeat(quantityOfChars), '**', '**')
 
@@ -10,9 +11,9 @@ const getPlayerLocationDescription = player => player.name + ' is in ' + player.
 
 const getPlayerHealthDescription = player => player.name + ' has health ' + player.health
 
-const getPlayerItemsString = (items, maxWidth) => {
-    return ITEMS_LEFT_BORDER + ITEMS + ' '.repeat(maxWidth - ITEMS.length) + '\n'
-        + items.map(i => ITEMS_LEFT_BORDER + '-' + ' ' + i).join('\n')
+const getPlayerItemsString = items => {
+    return ITEMS_LEFT_BORDER + ITEMS + '\n'
+        + items.map(i => ITEMS_LEFT_BORDER + ITEM_SEPARATOR + i).join('\n')
 }
 
 const padWithSpaces = (string, maxWidth) => string + ' '.repeat(maxWidth - string.length)
@@ -31,7 +32,7 @@ const displayPlayer = function (player) {
         + wrap(padWithSpaces(playerLocationDescription, maxWidth), LEFT_BORDER, RIGHT_BORDER) + '\n'
         + wrap(padWithSpaces(playerHealthDescription, maxWidth), LEFT_BORDER, RIGHT_BORDER) + '\n'
         + getBorder(maxWidth) + '\n'
-        + getPlayerItemsString(player.items, maxWidth) + '\n'
+        + getPlayerItemsString(player.items) + '\n'
         + getBorder(maxWidth) + '\n'
 
     console.log(playerDescription)
