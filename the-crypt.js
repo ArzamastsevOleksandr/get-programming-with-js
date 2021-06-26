@@ -25,9 +25,9 @@ const Player = function (name, health) {
     this.items = []
     this.place = null
 
-    this.getLocationDescription = player => player.name + ' is in ' + player.place.title
+    this.getLocationDescription = () => this.name + ' is in ' + this.place.title
 
-    this.getHealthDescription = player => player.name + ' has health ' + player.health
+    this.getHealthDescription = () => this.name + ' has health ' + this.health
 
     this.getBorder = (quantityOfChars) => LEFT_BORDER_WRAPPER
         + getBorder(BORDER_SYMBOL_PLAYER, quantityOfChars)
@@ -35,20 +35,20 @@ const Player = function (name, health) {
 
     this.getItemsDescription = items => {
         return ITEMS_LEFT_BORDER + ITEMS + '\n'
-            + items.map(i => ITEMS_LEFT_BORDER + ITEM_SEPARATOR + i).join('\n')
+            + items.map(item => ITEMS_LEFT_BORDER + ITEM_SEPARATOR + item).join('\n')
     }
 
     this.getDescription = () => {
-        const playerLocationDescription = this.getLocationDescription(player)
-        const playerHealthDescription = this.getHealthDescription(player)
+        const locationDescription = this.getLocationDescription()
+        const healthDescription = this.getHealthDescription()
 
-        const maxWidth = Math.max(playerLocationDescription.length, playerHealthDescription.length)
+        const maxWidth = Math.max(locationDescription.length, healthDescription.length)
 
         return this.getBorder(maxWidth) + '\n'
             + wrap(padWithSpaces(player.name, maxWidth), LEFT_BORDER_PLAYER, RIGHT_BORDER_PLAYER) + '\n'
             + this.getBorder(maxWidth) + '\n'
-            + wrap(padWithSpaces(playerLocationDescription, maxWidth), LEFT_BORDER_PLAYER, RIGHT_BORDER_PLAYER) + '\n'
-            + wrap(padWithSpaces(playerHealthDescription, maxWidth), LEFT_BORDER_PLAYER, RIGHT_BORDER_PLAYER) + '\n'
+            + wrap(padWithSpaces(locationDescription, maxWidth), LEFT_BORDER_PLAYER, RIGHT_BORDER_PLAYER) + '\n'
+            + wrap(padWithSpaces(healthDescription, maxWidth), LEFT_BORDER_PLAYER, RIGHT_BORDER_PLAYER) + '\n'
             + this.getBorder(maxWidth) + '\n'
             + this.getItemsDescription(player.items) + '\n'
             + this.getBorder(maxWidth) + '\n'
@@ -64,7 +64,7 @@ const Place = function (title, description) {
     this.title = title
     this.description = description
     this.items = []
-    this.exits = []
+    this.exits = {}
 
     this.addExit = (direction, place) => this.exits[direction] = place
 
@@ -74,10 +74,10 @@ const Place = function (title, description) {
         + this.getExitsDescription()
 
     this.getItemsDescription = () => ITEMS + '\n'
-        + this.items.map(i => ITEMS_LEFT_BORDER + ITEM_SEPARATOR + i).join('\n')
+        + this.items.map(item => ITEMS_LEFT_BORDER + ITEM_SEPARATOR + item).join('\n')
 
     this.getExitsDescription = () => 'Exits from ' + this.title + ':' + '\n'
-        + Object.keys(this.exits).map(i => EXITS_LEFT_BORDER + EXIT_SEPARATOR + i).join('\n')
+        + Object.keys(this.exits).map(exit => EXITS_LEFT_BORDER + EXIT_SEPARATOR + exit).join('\n')
 
     this.addItem = item => this.items.push(item)
 
@@ -86,23 +86,23 @@ const Place = function (title, description) {
 
 const library = new Place(
     'The Old Library',
-    'You are in a library. Dusty books line the walls.'
+    'You are in a library. Dusty books line the walls'
 )
 library.addItem('a rusty key')
 
 const kitchen = new Place(
     'The Kitchen',
-    'You are in a kitchen. There is a disturbing smell.'
+    'You are in a kitchen. There is a disturbing smell'
 )
 kitchen.addItem('a piece of cheese')
 
 const garden = new Place(
     'The Kitchen Garden',
-    'You are in a small, walled garden.'
+    'You are in a small, walled garden'
 )
 const cupboard = new Place(
     'The Kitchen Cupboard',
-    'You are in a cupboard. It is surprisingly roomy.'
+    'You are in a cupboard. It is surprisingly roomy'
 )
 cupboard.addItem('a tin of spam')
 
@@ -127,14 +127,12 @@ const render = () => {
 const go = direction => {
     player.place = player.place.exits[direction]
     render()
-    return ''
 }
 
 const get = () => {
     let item = player.place.items.pop();
     player.addItems(item)
     render()
-    return ''
 }
 
 render()
