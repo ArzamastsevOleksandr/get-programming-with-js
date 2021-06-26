@@ -2,3 +2,4 @@
 - array methods
 - instanceof
 - Object.prototype
+- bracket notation vs Map performance benchmark
