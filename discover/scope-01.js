@@ -63,3 +63,20 @@ quiz.next()
 quiz.showQuiz()
 quiz.showAnswer()
 quiz.next()
+
+const getGuessFunction = () => {
+    const numberToGuess = Math.floor(Math.random() * 10 + 1)
+
+    return attempt => {
+        if (attempt === numberToGuess) {
+            return 'Attempt: ' + attempt + ' is Correct'
+        } else if (attempt < numberToGuess) {
+            return attempt + ' is too low'
+        } else {
+            return attempt + ' too high'
+        }
+    }
+}
+
+const guess = getGuessFunction()
+console.log(guess(1))

@@ -138,15 +138,23 @@ const getGame = () => {
         go: function (direction) {
             const place = player.getPlace()
             const destination = place.getExit(direction);
-            player.setPlace(destination)
-            render()
+            if (destination) {
+                player.setPlace(destination)
+                render()
+            } else {
+                console.log('There is no exit in that direction: ' + direction)
+            }
         },
         // todo: describe that an item was picked and reduce boilerplate logging
         get: function () {
             const place = player.getPlace();
             const lastItem = place.getLastItem();
-            player.addItems(lastItem)
-            render()
+            if (lastItem) {
+                player.addItems(lastItem)
+                render()
+            } else {
+                console.log('There are no items in this place: ' + place.toString())
+            }
         }
     }
 }
@@ -156,3 +164,5 @@ game.get()
 game.go('south')
 game.go('north')
 game.go('west')
+game.go('bugaga')
+game.get()
