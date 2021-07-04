@@ -3,3 +3,4 @@
 - instanceof
 - Object.prototype
 - bracket notation vs Map performance benchmark
+- js modules
