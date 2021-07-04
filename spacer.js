@@ -13,5 +13,5 @@ const spacer = {
 }
 
 module.exports = {
-    spacer
+    spacer: spacer
 }
