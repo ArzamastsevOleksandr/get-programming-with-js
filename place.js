@@ -4,18 +4,24 @@ const ITEMS = 'Items:'
 const ITEMS_LEFT_BORDER = SPACE.repeat(2)
 const ITEM_SEPARATOR = DASH + SPACE.repeat(1)
 
+// todo: separate model from description functionality
 const Place = function (title, description) {
     const EXIT_SEPARATOR = DASH + SPACE.repeat(1)
     const EXITS_LEFT_BORDER = SPACE.repeat(2)
 
     const items = []
     const exits = {}
+    const challenges = {}
 
     this.addExit = (direction, place) => exits[direction] = place
 
     this.getExit = direction => exits[direction]
 
     this.getLastItem = () => items.pop()
+
+    this.addChallenge = (direction, challenge) => challenges[direction] = challenge
+
+    this.getChallenge = direction => challenges[direction]
 
     // todo: fix: when items is empty - do not show the items
     this.getDescription = () => title + '\n'
