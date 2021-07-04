@@ -109,6 +109,6 @@ const buildDefaultMap = () => {
 }
 
 module.exports = {
-    buildMap,
-    buildDefaultMap
+    buildMap: buildMap,
+    buildDefaultMap: buildDefaultMap
 }
