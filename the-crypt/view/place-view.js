@@ -1,28 +1,40 @@
 const SPACE = ' '
 const DASH = '-'
-const ITEMS = 'Items:'
+const ITEM_PREFIX = DASH + SPACE.repeat(1)
 const ITEMS_LEFT_BORDER = SPACE.repeat(2)
-const ITEM_SEPARATOR = DASH + SPACE.repeat(1)
 
 const EXIT_SEPARATOR = DASH + SPACE.repeat(1)
 const EXITS_LEFT_BORDER = SPACE.repeat(2)
 
-// todo: fix: when items is empty - do not show the items
 const getDescription = placeData => placeData.title + '\n'
-    + placeData.description + '\n'
+    + placeData.description + '\n' + '\n'
     + getItemsDescription(placeData) + '\n'
-    + getExitsDescription(placeData)
+    + getExitsDescription(placeData) + '\n'
 
-const getItemsDescription = placeData => placeData.items ? ITEMS + '\n'
-    + placeData.items.map(item => ITEMS_LEFT_BORDER + ITEM_SEPARATOR + item).join('\n')
-    : 'No items present'
+const getItemsDescription = placeData => {
+    const items = placeData.items
 
-const getExitsDescription = placeData => placeData.exits ? 'Exits from ' + placeData.title + ':' + '\n'
-    + Object.keys(placeData.exits).map(exit => EXITS_LEFT_BORDER + EXIT_SEPARATOR + exit).join('\n')
-    : 'No exits from the ' + placeData.title
+    if (items && items.length > 0) {
+        return 'Items:' + '\n'
+            + items.map(item => ITEMS_LEFT_BORDER + ITEM_PREFIX + item).join('\n') + '\n'
+    } else {
+        return 'There are no items in ' + placeData.title + '\n'
+    }
+}
+
+const getExitsDescription = placeData => {
+    const exits = placeData.exits
+
+    if (exits && exits.length > 0) {
+        return 'Exits from ' + placeData.title + ':' + '\n'
+            + Object.keys(exits).map(exit => EXITS_LEFT_BORDER + EXIT_SEPARATOR + exit).join('\n') + '\n'
+    } else {
+        return 'No exits from the ' + placeData.title
+    }
+}
 
 module.exports = {
     placeView: {
-        render: getDescription
+        getDescription: getDescription
     }
 }
