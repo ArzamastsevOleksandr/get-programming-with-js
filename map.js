@@ -109,6 +109,7 @@ const buildDefaultMap = () => {
 }
 
 module.exports = {
+    defaultMapData: defaultMapData,
     buildMap: buildMap,
     buildDefaultMap: buildDefaultMap
 }

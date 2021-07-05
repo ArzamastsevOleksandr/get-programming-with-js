@@ -1,40 +1,104 @@
+const {buildMap} = require("./map");
+const {defaultMapData} = require("./map");
 const {placeView} = require("./place-view");
 const {playerView} = require("./player-view");
-const {buildDefaultMap} = require("./map");
 const {Player} = require("./player");
 
-const getGame = () => {
-    const player = new Player('Kandra', 50)
-    player.addItems('The Sword of Doom')
-    player.setPlace(buildDefaultMap())
+const getGame = (playerName, mapData = defaultMapData) => {
+    let isGameInProgress = true
 
-    const render = () => {
-        console.log(placeView.render(player.getPlace().getData()))
-        console.log(playerView.render(player.getData()))
+    const player = new Player(playerName, 50)
+    player.addItems('The Sword of Doom', 'holy water')
+    player.setPlace(buildMap(mapData))
+
+    const checkGameInProgress = () => {
+        const playerData = player.getData();
+        if (playerData.health <= 0) {
+            isGameInProgress = false
+        }
+        return isGameInProgress
     }
 
-    render()
+    const render = player => {
+        if (checkGameInProgress()) {
+            console.log(placeView.render(player.getPlace().getData()))
+            console.log(playerView.render(player.getData()))
+        } else {
+            console.log(playerName + ' is dead')
+        }
+    }
+
+    render(player)
 
     return {
         go: function (direction) {
-            const place = player.getPlace()
-            const destination = place.getExit(direction);
-            if (destination) {
-                player.setPlace(destination)
-                render()
+            if (checkGameInProgress()) {
+                const place = player.getPlace()
+                const destination = place.getExit(direction);
+                const challenge = place.getChallenge(direction);
+
+                if (destination) {
+                    if (challenge === undefined || challenge.isComplete) {
+                        player.setPlace(destination)
+                        render(player)
+                    } else {
+                        if (challenge.damage) {
+                            player.applyDamage(challenge.damage)
+                            console.log('Arrghh! There is a challenge: ' + challenge.message)
+                        }
+                        render(player)
+                        // todo: separate view
+                        // console.log(challenge.message)
+                        // todo: check if not dead
+                    }
+
+                } else {
+                    console.log('There is no exit in that direction: ' + direction)
+                }
             } else {
-                console.log('There is no exit in that direction: ' + direction)
+                console.log(playerName + ' is dead')
             }
         },
         // todo: describe that an item was picked and reduce boilerplate logging
         get: function () {
-            const place = player.getPlace();
-            const lastItem = place.getLastItem();
-            if (lastItem) {
-                player.addItems(lastItem)
-                render()
+            if (checkGameInProgress()) {
+                const place = player.getPlace();
+                const lastItem = place.getLastItem();
+                if (lastItem) {
+                    player.addItems(lastItem)
+                    render(player)
+                } else {
+                    console.log('There are no items in this place: ' + place.toString())
+                }
             } else {
-                console.log('There are no items in this place: ' + place.toString())
+                console.log(playerName + ' is dead')
+            }
+        },
+        use: function (item, direction) {
+            if (checkGameInProgress()) {
+                const place = player.getPlace();
+                const challenge = place.getChallenge(direction);
+
+                if (challenge === undefined || challenge.isComplete) {
+                    console.log('No need to use an item')
+                } else {
+                    if (player.hasItem(item)) {
+                        if (item === challenge.requires) {
+                            console.log('Challenge success: ' + challenge.success)
+                            challenge.isComplete = true
+
+                            if (challenge.itemConsumed) {
+                                player.removeItem(item)
+                            }
+                        } else {
+                            console.log(challenge.failure)
+                        }
+                    } else {
+                        console.log('You do not have this item')
+                    }
+                }
+            } else {
+                console.log(playerName + ' is dead')
             }
         }
     }
