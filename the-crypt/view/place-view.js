@@ -1,3 +1,5 @@
+const {isArrayNotEmpty} = require("../util/collections");
+
 const SPACE = ' '
 const DASH = '-'
 const ITEM_PREFIX = DASH + SPACE.repeat(1)
@@ -14,7 +16,7 @@ const getDescription = placeData => placeData.title + '\n'
 const getItemsDescription = placeData => {
     const items = placeData.items
 
-    if (items && items.length > 0) {
+    if (isArrayNotEmpty(items)) {
         return 'Items:' + '\n'
             + items.map(item => ITEMS_LEFT_BORDER + ITEM_PREFIX + item).join('\n') + '\n'
     } else {
@@ -25,7 +27,7 @@ const getItemsDescription = placeData => {
 const getExitsDescription = placeData => {
     const exits = placeData.exits
 
-    if (exits && exits.length > 0) {
+    if (isArrayNotEmpty(exits)) {
         return 'Exits from ' + placeData.title + ':' + '\n'
             + Object.keys(exits).map(exit => EXITS_LEFT_BORDER + EXIT_SEPARATOR + exit).join('\n') + '\n'
     } else {

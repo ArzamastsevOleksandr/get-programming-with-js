@@ -1,3 +1,5 @@
+const {isArrayNotEmpty} = require("../util/collections");
+
 const {spacer} = require("../util/spacer");
 
 const SPACE = ' '
@@ -21,7 +23,7 @@ const getBorder = quantityOfChars => PLAYER_BORDER_PREFIX
     + PLAYER_BORDER_SUFFIX
 
 const getItemsDescription = items => {
-    if (items && items.length > 0) {
+    if (isArrayNotEmpty(items)) {
         return ITEMS_LEFT_BORDER + 'Player items:' + '\n'
             + items.map(item => ITEMS_LEFT_BORDER + ITEM_PREFIX + item).join('\n')
     } else {
