@@ -1,4 +1,4 @@
-const {getGame} = require("./the-crypt");
+const {getGame} = require("./game/the-crypt");
 
 const game = getGame('John')
 game.go('south')

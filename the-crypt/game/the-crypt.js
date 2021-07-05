@@ -1,8 +1,8 @@
-const {buildMap} = require("./map");
-const {defaultMapData} = require("./map");
-const {placeView} = require("./place-view");
-const {playerView} = require("./player-view");
-const {Player} = require("./player");
+const {buildMap} = require("../map/map");
+const {defaultMapData} = require("../map/map");
+const {placeView} = require("../view/place-view");
+const {playerView} = require("../view/player-view");
+const {Player} = require("../model/player");
 
 const getGame = (playerName, mapData = defaultMapData) => {
     let isGameInProgress = true
