@@ -34,10 +34,10 @@ const getDescription = playerData => {
     const maxWidth = Math.max(locationDescription.length, healthDescription.length)
 
     return getBorderPlayer(maxWidth) + '\n'
-        + spacer.wrap(spacer.padWithSpaces(playerData.name, maxWidth), LEFT_BORDER_PLAYER, RIGHT_BORDER_PLAYER) + '\n'
+        + LEFT_BORDER_PLAYER + spacer.padWithSpaces(playerData.name, maxWidth) + RIGHT_BORDER_PLAYER + '\n'
         + getBorderPlayer(maxWidth) + '\n'
-        + spacer.wrap(spacer.padWithSpaces(locationDescription, maxWidth), LEFT_BORDER_PLAYER, RIGHT_BORDER_PLAYER) + '\n'
-        + spacer.wrap(spacer.padWithSpaces(healthDescription, maxWidth), LEFT_BORDER_PLAYER, RIGHT_BORDER_PLAYER) + '\n'
+        + LEFT_BORDER_PLAYER + spacer.padWithSpaces(locationDescription, maxWidth) + RIGHT_BORDER_PLAYER + '\n'
+        + LEFT_BORDER_PLAYER + spacer.padWithSpaces(healthDescription, maxWidth) + RIGHT_BORDER_PLAYER + '\n'
         + getBorderPlayer(maxWidth) + '\n'
         + getItemsDescription(playerData.items) + '\n'
         + getBorderPlayer(maxWidth) + '\n'
