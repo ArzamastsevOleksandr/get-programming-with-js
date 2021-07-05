@@ -1,50 +1,52 @@
 const {spacer} = require("../util/spacer");
 
 const SPACE = ' '
-const DASH = '-'
-const ITEMS = 'Items:'
+const ITEM_PREFIX = '-' + SPACE.repeat(1)
 const ITEMS_LEFT_BORDER = SPACE.repeat(2)
-const ITEM_SEPARATOR = DASH + SPACE.repeat(1)
 
-const BORDER_SYMBOL_PLAYER = '='
+const BORDER_SYMBOL = '='
 
-const LEFT_BORDER_PLAYER = BORDER_SYMBOL_PLAYER + SPACE.repeat(1)
-const RIGHT_BORDER_PLAYER = SPACE.repeat(1) + BORDER_SYMBOL_PLAYER
+const PLAYER_LEFT_BORDER = BORDER_SYMBOL + SPACE.repeat(1)
+const PLAYER_RIGHT_BORDER = SPACE.repeat(1) + BORDER_SYMBOL
 
-const LEFT_BORDER_WRAPPER = BORDER_SYMBOL_PLAYER.repeat(2);
-const RIGHT_BORDER_WRAPPER = BORDER_SYMBOL_PLAYER.repeat(2);
+const PLAYER_BORDER_PREFIX = BORDER_SYMBOL.repeat(PLAYER_LEFT_BORDER.length);
+const PLAYER_BORDER_SUFFIX = BORDER_SYMBOL.repeat(PLAYER_RIGHT_BORDER.length);
 
-const getLocationDescription = playerData => playerData.place ? playerData.name + ' is in ' + playerData.place : 'none'
+const getLocationDescription = playerData => playerData.name + ' is in ' + playerData.place
 
-const getHealthDescription = playerData => playerData.name + ' has health ' + playerData.health
+const getNameAndHealthDescription = playerData => playerData.name + ' (health: ' + playerData.health + ')'
 
-const getBorderPlayer = (quantityOfChars) => LEFT_BORDER_WRAPPER
-    + spacer.getBorder(BORDER_SYMBOL_PLAYER, quantityOfChars)
-    + RIGHT_BORDER_WRAPPER
+const getBorder = quantityOfChars => PLAYER_BORDER_PREFIX
+    + spacer.getBorder(BORDER_SYMBOL, quantityOfChars)
+    + PLAYER_BORDER_SUFFIX
 
-const getItemsDescription = items => ITEMS_LEFT_BORDER + ITEMS + '\n'
-    + items.map(item => ITEMS_LEFT_BORDER + ITEM_SEPARATOR + item).join('\n')
+const getItemsDescription = items => {
+    if (items && items.length > 0) {
+        return ITEMS_LEFT_BORDER + 'Player items:' + '\n'
+            + items.map(item => ITEMS_LEFT_BORDER + ITEM_PREFIX + item).join('\n')
+    } else {
+        return 'Player has no items'
+    }
+}
 
 // todo: remove the place details from the description
-// todo: leave only name (health) & item list
 const getDescription = playerData => {
     const locationDescription = getLocationDescription(playerData)
-    const healthDescription = getHealthDescription(playerData)
+    const nameAndHealthDescription = getNameAndHealthDescription(playerData)
 
-    const maxWidth = Math.max(locationDescription.length, healthDescription.length)
+    const maxWidth = Math.max(locationDescription.length, nameAndHealthDescription.length)
 
-    return getBorderPlayer(maxWidth) + '\n'
-        + LEFT_BORDER_PLAYER + spacer.padWithSpaces(playerData.name, maxWidth) + RIGHT_BORDER_PLAYER + '\n'
-        + getBorderPlayer(maxWidth) + '\n'
-        + LEFT_BORDER_PLAYER + spacer.padWithSpaces(locationDescription, maxWidth) + RIGHT_BORDER_PLAYER + '\n'
-        + LEFT_BORDER_PLAYER + spacer.padWithSpaces(healthDescription, maxWidth) + RIGHT_BORDER_PLAYER + '\n'
-        + getBorderPlayer(maxWidth) + '\n'
+    return getBorder(maxWidth) + '\n'
+        + PLAYER_LEFT_BORDER + spacer.padWithSpaces(nameAndHealthDescription, maxWidth) + PLAYER_RIGHT_BORDER + '\n'
+        + getBorder(maxWidth) + '\n'
+        + PLAYER_LEFT_BORDER + spacer.padWithSpaces(locationDescription, maxWidth) + PLAYER_RIGHT_BORDER + '\n'
+        + getBorder(maxWidth) + '\n'
         + getItemsDescription(playerData.items) + '\n'
-        + getBorderPlayer(maxWidth) + '\n'
+        + getBorder(maxWidth) + '\n'
 }
 
 module.exports = {
     playerView: {
-        render: getDescription
+        getDescription: getDescription
     }
 }

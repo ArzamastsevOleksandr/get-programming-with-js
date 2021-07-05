@@ -21,8 +21,8 @@ const getGame = (playerName, mapData = defaultMapData) => {
 
     const render = player => {
         if (checkGameInProgress()) {
-            console.log(placeView.render(player.getPlace().getData()))
-            console.log(playerView.render(player.getData()))
+            console.log(placeView.getDescription(player.getPlace().getData()))
+            console.log(playerView.getDescription(player.getData()))
         } else {
             console.log(playerName + ' is dead')
         }
