@@ -1,4 +1,4 @@
-const {spacer} = require("./spacer");
+const {spacer} = require("../util/spacer");
 
 const SPACE = ' '
 const DASH = '-'

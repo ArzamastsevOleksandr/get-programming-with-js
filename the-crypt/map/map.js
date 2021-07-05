@@ -1,4 +1,4 @@
-const {Place} = require("./place");
+const {Place} = require("../model/place");
 
 const defaultMapData = {
     title: 'The Dark House',
