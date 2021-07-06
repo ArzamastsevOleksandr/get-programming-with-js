@@ -10,6 +10,9 @@ const Player = function (name, health) {
         const index = items.indexOf(item)
         if (index !== -1) {
             items.splice(index, 1)
+            return true
+        } else {
+            return false
         }
     }
 
@@ -17,8 +20,8 @@ const Player = function (name, health) {
 
     this.getData = () => {
         const data = {
-            name,
-            health,
+            name: name,
+            health: health,
             items: items.slice()
         }
         if (place) {

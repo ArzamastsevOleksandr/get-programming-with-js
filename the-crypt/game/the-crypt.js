@@ -1,28 +1,29 @@
-const {buildMap} = require("../map/map");
-const {defaultMapData} = require("../map/map");
+const {defaultMapData} = require("../map/default-map-data");
+const {buildMap} = require("../map/map-builder");
 const {placeView} = require("../view/place-view");
 const {playerView} = require("../view/player-view");
 const {Player} = require("../model/player");
 
 const getGame = (playerName, mapData = defaultMapData) => {
-    let isGameInProgress = true
-
     const player = new Player(playerName, 50)
-    player.addItems('The Sword of Doom', 'holy water')
+    player.addItems('holy water')
     player.setPlace(buildMap(mapData))
 
-    const checkGameInProgress = () => {
+    const isGameInProgress = () => {
         const playerData = player.getData();
-        if (playerData.health <= 0) {
-            isGameInProgress = false
-        }
-        return isGameInProgress
+        return playerData.health > 0
     }
 
     const render = player => {
-        if (checkGameInProgress()) {
+        doIfGameIsInProgress(() => {
             console.log(placeView.getDescription(player.getPlace().getData()))
             console.log(playerView.getDescription(player.getData()))
+        })
+    }
+
+    const doIfGameIsInProgress = func => {
+        if (isGameInProgress()) {
+            func()
         } else {
             console.log(playerName + ' is dead')
         }
@@ -32,7 +33,7 @@ const getGame = (playerName, mapData = defaultMapData) => {
 
     return {
         go: function (direction) {
-            if (checkGameInProgress()) {
+            doIfGameIsInProgress(() => {
                 const place = player.getPlace()
                 const destination = place.getExit(direction);
                 const challenge = place.getChallenge(direction);
@@ -44,38 +45,30 @@ const getGame = (playerName, mapData = defaultMapData) => {
                     } else {
                         if (challenge.damage) {
                             player.applyDamage(challenge.damage)
-                            console.log('Arrghh! There is a challenge: ' + challenge.message)
+                            console.log('Arrghh! ' + challenge.message)
                         }
-                        render(player)
-                        // todo: separate view
-                        // console.log(challenge.message)
-                        // todo: check if not dead
+                        doIfGameIsInProgress(() => render(player))
                     }
-
                 } else {
                     console.log('There is no exit in that direction: ' + direction)
                 }
-            } else {
-                console.log(playerName + ' is dead')
-            }
+            })
         },
-        // todo: describe that an item was picked and reduce boilerplate logging
         get: function () {
-            if (checkGameInProgress()) {
+            doIfGameIsInProgress(() => {
                 const place = player.getPlace();
                 const lastItem = place.getLastItem();
                 if (lastItem) {
                     player.addItems(lastItem)
+                    console.log('Picked an item: ' + lastItem)
                     render(player)
                 } else {
                     console.log('There are no items in this place: ' + place.toString())
                 }
-            } else {
-                console.log(playerName + ' is dead')
-            }
+            })
         },
         use: function (item, direction) {
-            if (checkGameInProgress()) {
+            doIfGameIsInProgress(() => {
                 const place = player.getPlace();
                 const challenge = place.getChallenge(direction);
 
@@ -84,7 +77,7 @@ const getGame = (playerName, mapData = defaultMapData) => {
                 } else {
                     if (player.hasItem(item)) {
                         if (item === challenge.requires) {
-                            console.log('Challenge success: ' + challenge.success)
+                            console.log(challenge.success)
                             challenge.isComplete = true
 
                             if (challenge.itemConsumed) {
@@ -94,12 +87,10 @@ const getGame = (playerName, mapData = defaultMapData) => {
                             console.log(challenge.failure)
                         }
                     } else {
-                        console.log('You do not have this item')
+                        console.log('You do not have: ' + item)
                     }
                 }
-            } else {
-                console.log(playerName + ' is dead')
-            }
+            })
         }
     }
 }
