@@ -1,4 +1,44 @@
-div {
-    white-space: pre-wrap;
-    font-family: AnjaliOldLipi;
+body {
+    background-color: lightblue;
+    color: black;
+    font-size: 120%;
+    margin: 0 20px 1em;
+}
+
+h1 {
+    background-color: black;
+    color: lightyellow;
+    text-align: center;
+    font-family: fantasy;
+    text-shadow: 3px 3px 5px rgba(255, 255, 216, 0.6);
+    margin: 0 -20px;
+    padding: 0.5em 0;
+}
+
+#player, #place {
+    white-space: pre;
+    font-family: monospace;
+    float: left;
+    width: 50%;
+    box-sizing: border-box;
+    padding: 1em;
+    overflow: auto;
+}
+
+#message {
+    clear: left;
+    color: brown;
+    text-align: center;
+    margin: 1em;
+    padding: 1em;
+    border: 1px solid;
+}
+
+#controls {
+    text-align: center;
+}
+
+input {
+    text-align: center;
+    font-size: 120%;
 }
