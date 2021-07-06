@@ -20,6 +20,8 @@
     <script src="map/map-builder.js"></script>
 
     <script src="game/the-crypt.js"></script>
+
+    <script src="parser/parser.js"></script>
 </head>
 <body>
     <h1>The Crypt</h1>
@@ -29,5 +31,21 @@
     <div id="player"></div>
 
     <div id="message"></div>
+
+    <div id="controls">
+        <input type="text" id="txtCommand">
+        <button id="btnCommand">Do it</button>
+        <script>
+            const doItBtn = document.getElementById('btnCommand')
+
+            doItBtn.addEventListener('click', () => {
+                parseInput(document.getElementById('txtCommand').value)
+            })
+        </script>
+    </div>
+
+    <script>
+        window.theCrypt.init('Kandra')
+    </script>
 </body>
 </html>

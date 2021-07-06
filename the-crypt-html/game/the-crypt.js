@@ -28,7 +28,7 @@ window.theCrypt.init = function (playerName, mapData = theCrypt.map.defaultMapDa
         const messageDiv = document.getElementById('message')
         messageDiv.innerHTML = theCrypt.view.message.getDescription(message)
     }
-    
+
     const clearMessage = function () {
         const messageDiv = document.getElementById('message')
         messageDiv.innerHTML = ''
@@ -51,11 +51,10 @@ window.theCrypt.init = function (playerName, mapData = theCrypt.map.defaultMapDa
 
     render(player)
 
-    return {
+    window.theCrypt.game = {
         go: function (direction) {
             doIfGameIsInProgress(() => {
                 renderMessage('Attempt to go to ' + direction)
-                // console.log(theCrypt.view.message.getDescription('Attempt to go to ' + direction))
                 const place = player.getPlace()
                 const destination = place.getExit(direction);
                 const challenge = place.getChallenge(direction);
@@ -64,21 +63,17 @@ window.theCrypt.init = function (playerName, mapData = theCrypt.map.defaultMapDa
                     if (challenge === undefined || challenge.isComplete) {
                         player.setPlace(destination)
                         renderMessage('Moved successfully to ' + destination)
-                        // console.log(theCrypt.view.message.getDescription('Moved successfully to ' + destination))
                         render(player)
                     } else {
                         if (challenge.damage) {
                             player.applyDamage(challenge.damage)
                             renderMessage('Arrghh! ' + challenge.message)
-                            // console.log(theCrypt.view.message.getDescription('Arrghh! ' + challenge.message))
                             renderMessage('Failed to move ' + direction)
-                            // console.log('Failed to move ' + direction)
                         }
                         doIfGameIsInProgress(() => render(player))
                     }
                 } else {
                     renderMessage('There is no exit in to ' + direction + ' from ' + player.getPlace())
-                    // console.log(theCrypt.view.message.getDescription('There is no exit in to ' + direction + ' from ' + player.getPlace()))
                 }
             })
         },
@@ -89,12 +84,9 @@ window.theCrypt.init = function (playerName, mapData = theCrypt.map.defaultMapDa
                 if (lastItem) {
                     player.addItems(lastItem)
                     renderMessage('Picked an item: ' + lastItem)
-                    // console.log(theCrypt.view.message.getDescription('Picked an item: ' + lastItem))
-                    renderPlayer(player)
-                    // console.log(playerView.getDescription(player.getData()))
+                    render(player)
                 } else {
                     renderMessage('There are no items in this place: ' + place.toString())
-                    // console.log(messageView.getDescription('There are no items in this place: ' + place.toString()))
                 }
             })
         },
@@ -104,28 +96,25 @@ window.theCrypt.init = function (playerName, mapData = theCrypt.map.defaultMapDa
                 const challenge = place.getChallenge(direction);
 
                 if (challenge === undefined || challenge.isComplete) {
-                    // console.log(messageView.getDescription('No need to use: ' + item))
                     renderMessage('No need to use: ' + item)
                 } else {
                     if (player.hasItem(item)) {
                         if (item === challenge.requires) {
                             renderMessage(challenge.success)
-                            // console.log(challenge.success)
                             challenge.isComplete = true
 
                             if (challenge.itemConsumed) {
                                 player.removeItem(item)
                             }
                         } else {
-                            // console.log(challenge.failure)
                             renderMessage(challenge.failure)
                         }
                     } else {
-                        // console.log(messageView.getDescription('You do not have: ' + item))
                         renderMessage('You do not have: ' + item)
                     }
                 }
             })
-        }
+        },
+        renderMessage: renderMessage
     }
 }

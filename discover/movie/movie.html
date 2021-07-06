@@ -11,8 +11,8 @@
     <script>
         generateRandomGreet()
     </script>
-    <h1>Movie Ratings</h1>
 
+    <h1>Movie Ratings</h1>
     <p>Brief movie ratings</p>
 
     <h2>Movies</h2>
@@ -21,19 +21,22 @@
         renderMovies()
     </script>
 
-<!--    <h3>Inside out</h3>-->
-<!--    <p>An emotional adventure</p>-->
+    <h4>Comments</h4>
+    <ul id="comments"></ul>
 
-    <h4>Actors</h4>
-    <ul>
-        <li>John</li>
-        <li>Ann</li>
-    </ul>
+    <div class="controls">
+        <input type="text" id="txtComment"/>
 
-    <h4>Directors</h4>
-    <ol>
-        <li>Dan</li>
-        <li>Mark</li>
-    </ol>
+        <select id="ratings">
+            <option>1</option>
+            <option>2</option>
+            <option selected>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+
+        <button id="rate" onclick="rateMovie()">Rate</button>
+    </div>
+
 </body>
 </html>

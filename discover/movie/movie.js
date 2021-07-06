@@ -2,7 +2,9 @@ const generateRandomGreet = () => {
     const greetings = [
         'Hello',
         'Hi',
-        "What's up"
+        "What's up",
+        'Hey man',
+        'Pay or die'
     ]
     const randomGreet = greetings[Math.floor(Math.random() * greetings.length)]
 
@@ -38,7 +40,10 @@ const renderMovies = () => {
     moviesDiv.innerHTML = getAllMoviesHtml(movieData)
 }
 
-module.exports = {
-    generateRandomGreet: generateRandomGreet,
-    renderMovies: renderMovies
+const rateMovie = () => {
+    const ratingsSelect = document.getElementById('ratings')
+    const commentInput = document.getElementById('txtComment')
+    const commentsList = document.getElementById('comments')
+
+    commentsList.innerHTML += '<li>' + commentInput.value + '(' + ratingsSelect.value + ' stars)' + '</li>'
 }
