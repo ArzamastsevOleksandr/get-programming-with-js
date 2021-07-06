@@ -1,6 +1,7 @@
 const {getGame} = require("./game/the-crypt");
 
 const game = getGame('John')
+game.get()
 game.go('south')
 game.use('holy water', 'south')
 game.go('south')

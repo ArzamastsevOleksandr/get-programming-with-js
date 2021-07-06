@@ -2,6 +2,7 @@ const {defaultMapData} = require("../map/default-map-data");
 const {buildMap} = require("../map/map-builder");
 const {placeView} = require("../view/place-view");
 const {playerView} = require("../view/player-view");
+const {messageView} = require("../view/message-view");
 const {Player} = require("../model/player");
 
 const getGame = (playerName, mapData = defaultMapData) => {
@@ -25,7 +26,7 @@ const getGame = (playerName, mapData = defaultMapData) => {
         if (isGameInProgress()) {
             func()
         } else {
-            console.log(playerName + ' is dead')
+            console.log(messageView.getDescription(playerName + ' is dead'))
         }
     }
 
@@ -34,6 +35,7 @@ const getGame = (playerName, mapData = defaultMapData) => {
     return {
         go: function (direction) {
             doIfGameIsInProgress(() => {
+                console.log(messageView.getDescription('Attempt to go to ' + direction))
                 const place = player.getPlace()
                 const destination = place.getExit(direction);
                 const challenge = place.getChallenge(direction);
@@ -41,16 +43,18 @@ const getGame = (playerName, mapData = defaultMapData) => {
                 if (destination) {
                     if (challenge === undefined || challenge.isComplete) {
                         player.setPlace(destination)
+                        console.log(messageView.getDescription('Moved successfully to ' + destination))
                         render(player)
                     } else {
                         if (challenge.damage) {
                             player.applyDamage(challenge.damage)
-                            console.log('Arrghh! ' + challenge.message)
+                            console.log(messageView.getDescription('Arrghh! ' + challenge.message))
+                            console.log('Failed to move ' + direction)
                         }
                         doIfGameIsInProgress(() => render(player))
                     }
                 } else {
-                    console.log('There is no exit in that direction: ' + direction)
+                    console.log(messageView.getDescription('There is no exit in to ' + direction + ' from ' + player.getPlace()))
                 }
             })
         },
@@ -60,10 +64,10 @@ const getGame = (playerName, mapData = defaultMapData) => {
                 const lastItem = place.getLastItem();
                 if (lastItem) {
                     player.addItems(lastItem)
-                    console.log('Picked an item: ' + lastItem)
-                    render(player)
+                    console.log(messageView.getDescription('Picked an item: ' + lastItem))
+                    console.log(playerView.getDescription(player.getData()))
                 } else {
-                    console.log('There are no items in this place: ' + place.toString())
+                    console.log(messageView.getDescription('There are no items in this place: ' + place.toString()))
                 }
             })
         },
@@ -73,7 +77,7 @@ const getGame = (playerName, mapData = defaultMapData) => {
                 const challenge = place.getChallenge(direction);
 
                 if (challenge === undefined || challenge.isComplete) {
-                    console.log('No need to use an item')
+                    console.log(messageView.getDescription('No need to use: ' + item))
                 } else {
                     if (player.hasItem(item)) {
                         if (item === challenge.requires) {
@@ -87,7 +91,7 @@ const getGame = (playerName, mapData = defaultMapData) => {
                             console.log(challenge.failure)
                         }
                     } else {
-                        console.log('You do not have: ' + item)
+                        console.log(messageView.getDescription('You do not have: ' + item))
                     }
                 }
             })
