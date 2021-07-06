@@ -27,7 +27,7 @@ const getItemsDescription = placeData => {
 const getExitsDescription = placeData => {
     const exits = placeData.exits
 
-    if (isArrayNotEmpty(exits)) {
+    if (exits) {
         return 'Exits from ' + placeData.title + ':' + '\n'
             + Object.keys(exits).map(exit => EXITS_LEFT_BORDER + EXIT_SEPARATOR + exit).join('\n') + '\n'
     } else {
