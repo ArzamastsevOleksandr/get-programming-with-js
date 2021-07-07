@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fitness App</title>
+</head>
+<body>
+<div id="news"></div>
+
+<script type="text/template" id="newsItemTemplate">
+    <div class="newsItem">
+        <h3>{{title}}<span> - by {{author}}</span></h3>
+        <p>{{body}}</p>
+        <p class="posted"><em>Posted: {{posted}}</em></p>
+        <p class="follow">Follow {{author}} {{social}}</p>
+    </div>
+</script>
+<script src="fitness-posts.js"></script>
+<script src="fitness.js"></script>
+</body>
+</html>
