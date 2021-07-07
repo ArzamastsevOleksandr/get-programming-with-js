@@ -15,18 +15,15 @@ window.theCrypt.init = function (playerName, mapData = theCrypt.map.defaultMapDa
     }
 
     const renderPlace = function (place) {
-        const placeDiv = document.getElementById('place')
-        placeDiv.innerHTML = theCrypt.view.place.getDescription(place.getData())
+        window.theCrypt.view.place.render(place.getData())
     }
 
     const renderPlayer = function (player) {
-        let playerDiv = document.getElementById('player');
-        playerDiv.innerHTML = theCrypt.view.player.getDescription(player.getData())
+        window.theCrypt.view.player.render(player.getData())
     }
 
     const renderMessage = function (message) {
-        const messageDiv = document.getElementById('message')
-        messageDiv.innerHTML = theCrypt.view.message.getDescription(message)
+        window.theCrypt.view.message.render(message)
     }
 
     const clearMessage = function () {
