@@ -1,0 +1,35 @@
+body {
+    font-family: helvetica, tahoma, sans-serif;
+    margin: 0;
+    padding: 1em 2em;
+}
+
+ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+li {
+    padding: 3px 0;
+    margin: 3px 0;
+    border-bottom: 1px dashed silver;
+    max-width: 30em;
+    font-size: 90%;
+}
+
+#form {
+    padding: 1em;
+    margin: 1em 0;
+    background: #eec;
+    max-width: 30em;
+}
+
+#form h3 {
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    margin-top: 0.5em;
+}
