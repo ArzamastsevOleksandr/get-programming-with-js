@@ -2,19 +2,20 @@
     if (window.theCrypt === undefined) {
         window.theCrypt = {}
     }
-
     if (window.theCrypt.util === undefined) {
         window.theCrypt.util = {}
     }
 
-    const replacePlaceholder = (string, fieldName, data) => {
-        while (string.includes('{{' + fieldName + '}}')) {
-            string = string.replace('{{' + fieldName + '}}', data[fieldName])
+    const renderTemplate = (template, fieldName, data) => {
+        const value = '{{' + fieldName + '}}'
+
+        while (template.includes(value)) {
+            template = template.replace(value, data[fieldName])
         }
-        return string
+        return template
     }
 
     window.theCrypt.util.templateRenderer = {
-        replacePlaceholder: replacePlaceholder
+        renderTemplate: renderTemplate
     }
 })()

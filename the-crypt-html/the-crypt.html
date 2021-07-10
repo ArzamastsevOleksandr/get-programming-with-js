@@ -18,13 +18,6 @@
 <div id="controls">
     <input type="text" id="txtCommand">
     <button id="btnCommand">Do it</button>
-    <script>
-        const doItBtn = document.getElementById('btnCommand')
-
-        doItBtn.addEventListener('click', () => {
-            parseInput(document.getElementById('txtCommand').value)
-        })
-    </script>
 </div>
 
 <script type="text/template" id="itemTemplate">
@@ -62,27 +55,20 @@
 </script>
 
 <script src="util/templates.js"></script>
-<script src="util/spacer.js"></script>
-<script src="util/collections.js"></script>
 
 <script src="view/message-view.js"></script>
 <script src="view/player-view.js"></script>
-
+<script src="view/place-view.js"></script>
 
 <script src="model/player.js"></script>
 <script src="model/place.js"></script>
 
-<script src="view/place-view.js"></script>
-
 <script src="map/default-map-data.js"></script>
 <script src="map/map-builder.js"></script>
 
-<script src="game/the-crypt.js"></script>
-
 <script src="parser/parser.js"></script>
 
-<script>
-    window.theCrypt.init('Kandra')
-</script>
+<script src="game/the-crypt.js"></script>
+
 </body>
 </html>
