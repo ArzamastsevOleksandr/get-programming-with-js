@@ -5,21 +5,22 @@
     if (window.theCrypt.view === undefined) {
         window.theCrypt.view = {}
     }
+    const templateRenderer = window.theCrypt.util.templateRenderer;
 
     const playerDiv = document.getElementById('player')
-    const playerScript = document.getElementById('playerTemplate')
-    const itemScript = document.getElementById('itemTemplate')
+    const playerTemplate = document.getElementById('playerTemplate')
+    const itemTemplate = document.getElementById('itemTemplate')
 
     const render = playerData => {
         playerDiv.innerHTML = Object.keys(playerData)
             .reduce(
-                (rendered, key) => window.theCrypt.util.templateRenderer.replacePlaceholder(rendered, key, playerData),
-                playerScript.innerHTML
+                (rendered, key) => templateRenderer.renderTemplate(rendered, key, playerData),
+                playerTemplate.innerHTML
             )
 
         document.getElementById('playerItems').innerHTML =
             playerData.items
-                .map(item => window.theCrypt.util.templateRenderer.replacePlaceholder(itemScript.innerHTML, 'item', {item: item}))
+                .map(item => templateRenderer.renderTemplate(itemTemplate.innerHTML, 'item', {item: item}))
                 .join('')
     }
 
